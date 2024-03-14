@@ -13,13 +13,21 @@ const Login = (props) => {
   const [collegeNameIsValid, setCollegeNameIsValid] = useState(); // 1. Ad\ state for College Name validity
   const [formIsValid, setFormIsValid] = useState(false);
 
-  useEffect(() => {
-    const formIsValid =
-      enteredEmail.includes('@') &&
-      enteredPassword.trim().length > 6 &&
-      enteredCollegeName.trim() !== ''; // 2. Update form validation logic
-    setFormIsValid(formIsValid);
-  }, [enteredEmail, enteredPassword, enteredCollegeName]); // 2. Update dependencies
+   useEffect(() => {
+    const identifier = setTimeout(() => {
+      console.log('checking form validity!');
+      setFormIsValid(
+        enteredEmail.includes('@') && enteredPassword.trim().length > 6
+      );
+    }, 500);
+    clearTimeout();
+
+    return () =>{
+      console.log('CLEANUP');
+      clearTimeout(identifier);
+    };
+  },[enteredEmail, enteredPassword]);
+   
 
   const emailChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
